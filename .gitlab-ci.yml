@@ -1,0 +1,79 @@
+stages:
+  - lint
+  - build
+  - python
+  - test
+  - cleanup
+
+default:
+  image: docker:stable
+
+Dockerfile lint:
+  stage: lint
+  rules:
+    - changes:
+      - Dockerfile
+  image: hadolint/hadolint:latest-debian
+  script:
+    - hadolint Dockerfile
+
+build:
+  stage: build
+  script:
+    - docker build --tag $CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA .
+
+.tests:
+  stage: test
+  variables:
+    GIT_STRATEGY: none
+
+Python2:
+  extends: .tests
+  stage: python
+  script:
+    - docker run --rm $CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA python -c 'from sys import version_info; print(version_info); assert version_info[0:2] == (2, 7)'
+
+git test:
+  extends: .tests
+  script:
+    - docker run --rm $CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA git --version
+
+isort test:
+  extends: .tests
+  script:
+    - docker run --rm $CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA isort --version
+
+pip test:
+  extends: .tests
+  script:
+    - docker run --rm $CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA pip --version
+
+PyLint test:
+  extends: .tests
+  script:
+    - docker run --rm $CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA pylint --version
+
+pytest test:
+  extends: .tests
+  script:
+    - docker run --rm $CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA pytest-2 --version
+
+Setuptools test:
+  extends: .tests
+  script:
+    - docker run --rm $CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA easy_install-2.7 --version
+
+tox test:
+  extends: .tests
+  script:
+    - docker run --rm $CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA tox --version
+
+wheel test:
+  extends: .tests
+  script:
+    - docker run --rm $CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA wheel version
+
+cleanup:
+  stage: cleanup
+  script:
+    - docker rmi $CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA
