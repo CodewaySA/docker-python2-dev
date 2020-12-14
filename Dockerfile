@@ -14,5 +14,5 @@ RUN apk update && \
             py2-more-itertools=5.0.0-r0 py2-packaging=19.0-r0 py2-parsing=2.4.0-r0 py2-pathlib2=2.3.2-r1 \
             py2-scandir=1.9.0-r2 py2-wcwidth=0.1.7-r2 && \
     apk add git=2.22.4-r0 python2=2.7.18-r0 py-setuptools=40.8.0-r1 py2-isort=4.3.19-r0 py2-tox=3.9.0-r0 && \
-    pip install --no-cache-dir pylint==1.9.5 pytest==4.6.11 wheel==0.36.2 && \
+    pip install --no-cache-dir coverage==5.3 pylint==1.9.5 pytest==4.6.11 pytest-cov==2.10.1 wheel==0.36.2 && \
     rm -rf /root/.cache /var/cache/apk/*
