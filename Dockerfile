@@ -1,4 +1,4 @@
-FROM codewaysa/alpine:3.10.5_20200622
+FROM codewaysa/alpine:3.10.5_20201214
 
 LABEL org.python.version="2.7.18"
 LABEL image_name="codewaysa/python2-dev"
