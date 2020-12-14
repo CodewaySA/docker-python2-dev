@@ -61,7 +61,7 @@ PyLint test:
 pytest test:
   extends: .tests
   script:
-    - docker run --rm $CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA pytest-2 --version
+    - docker run --rm $CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA pytest --version
 
 Setuptools test:
   extends: .tests
