@@ -6,7 +6,7 @@ LABEL maintainer="l.lesinigo@codeway.ch"
 
 # Alpine Linux v3.10 has Python-2.7 but no PyLint nor wheel
 # DL3019: we use "apk update" because we need multiple "apk add"
-# hadolint ignore=DL3018,DL3019
+# hadolint ignore=DL3019
 RUN apk update && \
     apk add --virtual .isort-dependencies py2-futures=3.2.0-r0 && \
     apk add --virtual .pylint-dependencies py2-configparser=3.7.4-r0 py2-mccabe=0.6.1-r3 py2-singledispatch=3.4.0.3-r1 && \
